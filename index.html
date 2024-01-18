@@ -3,58 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Names to Array</title>
+    <title>Player Name Selection</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .div1 {
+            width:200px;
+            
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input {
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 8px;
+            margin-left: 5px;
+            cursor: pointer;
+        }
+
+        #playerList {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* div > div {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        } */
+
+        p {
+            margin: 0;
+            color: #333;
+        }
+
+        button.delete-btn {
+            background-color: #ff5757;
+            color: #fff;
+            border: none;
+            padding: 6px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        button.confirm-btn {
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .deleted_div {
+            display: flex;
+            align-items: center;
+        }
+
+        .deleted_name {
+            width: 100px;
+            flex-grow: 1;
+            margin-right: 8px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .delete_button {
+            background-color: #ff4d4d;
+            color: #fff;
+            border: none;
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #test{
+            width: 185px;
+        }
+    </style>
 </head>
 <body>
-
-    <h2>Add Names to Array</h2>
     
-    <!-- Input field for entering names -->
-    <input type="text" id="nameInput" placeholder="Enter a name">
-    
-    <!-- Button to add the name to the array -->
-    <button onclick="addName()">Add</button>
 
-    <!-- Display the array of names -->
-    <h3>Names:</h3>
-    <ul id="nameList"></ul>
+    <div class="container">
+        <div class="div1">
+            <h1>Game Setup</h1>
+            <label for="playerName">Player Name:</label>
+            <input type="text" id="playerName" placeholder="Enter player name">
+            <button onclick="addPlayer()">Add Player</button>
+            <button onclick="confirmPlayers()">Confirm Players</button>
+        </div>
+    
+        <div id="playerList">
+            <label id="test"></label>
+            <!-- Player names will be displayed here -->
+        </div>
+        
+    
+    </div>
+
 
     <script>
-        // Array to store names
-        let namesArray = [];
+        let players = [];
 
-        // Function to add the name to the array
-        function addName() {
-            // Get the value from the input field
-            const newName = document.getElementById("nameInput").value;
+        function addPlayer() {
+            const playerNameInput = document.getElementById('playerName');
+            const playerName = playerNameInput.value.trim();
 
-            // Check if the input is not empty
-            if (newName.trim() !== "") {
-                // Add the name to the array
-                namesArray.push(newName);
-
-                // Update the displayed list of names
-                displayNames();
-
-                // Clear the input field
-                document.getElementById("nameInput").value = "";
+            if (playerName !== '') {
+                players.push(playerName);
+                displayPlayers();
+                playerNameInput.value = ''; // Clear the input field
             }
         }
 
-        // Function to display the names in the array
-        function displayNames() {
-            const nameList = document.getElementById("nameList");
-            // Clear the previous list
-            nameList.innerHTML = "";
+        function deletePlayer(index) {
+            players.splice(index, 1);
+            displayPlayers();
+        }
 
-            // Populate the list with the current names
-            namesArray.forEach(name => {
-                const listItem = document.createElement("li");
-                listItem.textContent = name;
-                nameList.appendChild(listItem);
+        function displayPlayers() {
+            const playerListContainer = document.getElementById('playerList');
+            playerListContainer.innerHTML = '';
+
+            players.forEach((player, index) => {
+                const playerElement = document.createElement('div');
+                playerElement.innerHTML = `<div class='deleted_div'><p class='deleted_name'>${player}</p><button onclick="deletePlayer(${index})" class='delete_button'>Delete</button></div>`;
+                playerListContainer.appendChild(playerElement);
             });
         }
-    </script>
 
+        function confirmPlayers() {
+            if (players.length > 0) {
+                // Perform actions to start the game with the selected players
+                console.log('Game starting with players:', players);
+            } else {
+                alert('Please add at least one player before confirming.');
+            }
+        }
+    </script>
 </body>
 </html>
