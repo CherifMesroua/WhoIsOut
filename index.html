@@ -3,9 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Add Names to Array</title>
 </head>
 <body>
+
+    <h2>Add Names to Array</h2>
     
+    <!-- Input field for entering names -->
+    <input type="text" id="nameInput" placeholder="Enter a name">
+    
+    <!-- Button to add the name to the array -->
+    <button onclick="addName()">Add</button>
+
+    <!-- Display the array of names -->
+    <h3>Names:</h3>
+    <ul id="nameList"></ul>
+
+    <script>
+        // Array to store names
+        let namesArray = [];
+
+        // Function to add the name to the array
+        function addName() {
+            // Get the value from the input field
+            const newName = document.getElementById("nameInput").value;
+
+            // Check if the input is not empty
+            if (newName.trim() !== "") {
+                // Add the name to the array
+                namesArray.push(newName);
+
+                // Update the displayed list of names
+                displayNames();
+
+                // Clear the input field
+                document.getElementById("nameInput").value = "";
+            }
+        }
+
+        // Function to display the names in the array
+        function displayNames() {
+            const nameList = document.getElementById("nameList");
+            // Clear the previous list
+            nameList.innerHTML = "";
+
+            // Populate the list with the current names
+            namesArray.forEach(name => {
+                const listItem = document.createElement("li");
+                listItem.textContent = name;
+                nameList.appendChild(listItem);
+            });
+        }
+    </script>
+
 </body>
 </html>
